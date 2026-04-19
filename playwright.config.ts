@@ -28,7 +28,7 @@ export default defineConfig({
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
     baseURL: 'https://pythonweb-wymr.onrender.com',
-    headless: false,
+    headless: process.env.CI ? true : false,
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
