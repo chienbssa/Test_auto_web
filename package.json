@@ -1,0 +1,15 @@
+{
+  "name": "test_auto_web",
+  "version": "1.0.0",
+  "description": "Automation Testing cho Python Django Website bằng Playwright TypeScript",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.59.1",
+    "@types/node": "^25.6.0"
+  }
+}
