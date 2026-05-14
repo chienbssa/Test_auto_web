@@ -5,9 +5,10 @@ import { test, expect } from "@playwright/test";
 //     test("TC01 - Đăng ký thành công", async ({ page }) => {
 //         await page.goto("/register");
 //         await page.fill('input[name="username"]', "user1");
-//         await page.fill('input[name="password"]', "123456");
-//         await page.fill('input[name="confirmPassword"]', "123456");
-//         await page.click('text=Đăng ký');
+//         await page.fill('input[name="email"]', "user1@gmail.com");
+//         await page.fill('input[name="pass1"]', "123456");
+//         await page.fill('input[name="pass2"]', "123456");
+//         await page.getByRole('button', { name: 'Đăng kí' }).click();
 //         await expect(page.getByText('Đăng ký thành công!')).toBeVisible();
 //     });
 // });
