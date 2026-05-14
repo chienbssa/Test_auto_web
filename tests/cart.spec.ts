@@ -67,12 +67,33 @@ test("TC38 - refresh giỏ hàng", async ({ page }) => {
 });
 
 test("TC40 - Tổng tiền đúng", async ({ page }) => {
-    await page.goto("/menu");
-    await page.click('text=Thêm vào giỏ hàng');
-    await page.goto("/cart");
-    await page.getByRole('spinbutton').fill('2');
-    await page.getByRole('spinbutton').press('Enter');
-    await expect(page.locator('.subtotal')).toHaveText('10.000 VND');
-    await page.reload();
-    await expect(page.locator('.subtotal')).toHaveText('10.000 VND');
+  await page.goto("/menu");
+  await page.click('text=Thêm vào giỏ hàng');
+  await page.goto("/cart");
+  const qtyInput = page.getByRole('spinbutton').first();
+  const unitPriceLocator = page.locator('.unit-price').first();
+  const subtotalLocator = page.locator('.subtotal').first();
+  // cập nhật số lượng
+  await qtyInput.fill('2');
+  await qtyInput.press('Enter');
+  // lấy giá gốc
+  const unitPriceText = await unitPriceLocator.textContent();
+  // ví dụ: "10.000 VND" -> 10000
+  const unitPrice = Number(
+    unitPriceText!
+      .replace(/\./g, '')
+      .replace('VND', '')
+      .trim()
+  );
+  // expected subtotal
+  const expectedSubtotal = unitPrice * 2;
+  // verify subtotal
+  await expect(subtotalLocator).toContainText(
+    expectedSubtotal.toLocaleString('vi-VN')
+  );
+  // reload kiểm tra vẫn đúng
+  await page.reload();
+  await expect(page.locator('.subtotal').first()).toContainText(
+    expectedSubtotal.toLocaleString('vi-VN')
+  );
 });
