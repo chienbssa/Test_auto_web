@@ -1,12 +1,12 @@
 import {test, expect} from '@playwright/test';
 
-test("TC30 - Thêm sản phẩm", async ({ page }) => {
+test("TC34 - Thêm sản phẩm", async ({ page }) => {
     await page.goto("/menu");
     await page.click('text=Thêm vào giỏ hàng');
     await expect(page.getByText('Đã thêm sản phẩm vào giỏ hàng')).toBeVisible();
 });
 
-test("TC31 - Thêm sản phẩm nhiều lần", async ({ page }) => {
+test("TC35 - Thêm sản phẩm nhiều lần", async ({ page }) => {
     await page.goto("/menu");
     const addBtn = page.locator('text=Thêm vào giỏ').first();
     const cartBadge = page.locator('.badge.bg-danger');
@@ -17,7 +17,7 @@ test("TC31 - Thêm sản phẩm nhiều lần", async ({ page }) => {
     await expect(cartBadge).toHaveText(String(clickTimes));
 });
 
-test("TC33 - số lượng =0", async ({ page }) => {
+test("TC37 - số lượng =0", async ({ page }) => {
     await page.goto("/menu");
     await page.click('text=Thêm vào giỏ hàng');
     await page.goto("/cart");
@@ -30,7 +30,7 @@ test("TC33 - số lượng =0", async ({ page }) => {
     await qty.press('Enter');
 });
 
-test("TC34 - số lượng âm", async ({ page }) => {
+test("TC38 - số lượng âm", async ({ page }) => {
      await page.goto("/menu");
     await page.click('text=Thêm vào giỏ hàng');
     await page.goto("/cart");
@@ -43,7 +43,7 @@ test("TC34 - số lượng âm", async ({ page }) => {
     await qty.press('Enter');
 });
 
-test("TC36 - Xóa sản phẩm", async ({ page }) => {
+test("TC40 - Xóa sản phẩm", async ({ page }) => {
     await page.goto("/menu");
     await page.click('text=Thêm vào giỏ hàng');
     await page.goto("/cart");
@@ -51,12 +51,12 @@ test("TC36 - Xóa sản phẩm", async ({ page }) => {
     await expect(page.getByText('Giỏ hàng của bạn đang trống')).toBeVisible();
 });
 
-test("TC37 - Giỏ trống", async ({ page }) => {
+test("TC41 - Giỏ trống", async ({ page }) => {
     await page.goto("/cart");
     await expect(page.getByText('Giỏ hàng của bạn đang trống')).toBeVisible();
 });
 
-test("TC38 - refresh giỏ hàng", async ({ page }) => {
+test("TC42 - refresh giỏ hàng", async ({ page }) => {
     await page.goto("/menu");
     await page.click('text=Thêm vào giỏ hàng');
     await page.goto("/cart");
@@ -66,7 +66,7 @@ test("TC38 - refresh giỏ hàng", async ({ page }) => {
     await expect(items).toHaveCount(before);
 });
 
-test("TC40 - Tổng tiền đúng", async ({ page }) => {
+test("TC44 - Tổng tiền đúng", async ({ page }) => {
   await page.goto("/menu");
   await page.click('text=Thêm vào giỏ hàng');
   await page.goto("/cart");

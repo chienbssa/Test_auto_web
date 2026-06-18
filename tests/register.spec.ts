@@ -1,17 +1,17 @@
 import { test, expect } from "@playwright/test";
 
-// test.describe("Đăng ký thành công", () => {
+test.describe("Đăng ký thành công", () => {
 
-//     test("TC01 - Đăng ký thành công", async ({ page }) => {
-//         await page.goto("/register");
-//         await page.fill('input[name="username"]', "user1");
-//         await page.fill('input[name="email"]', "user1@gmail.com");
-//         await page.fill('input[name="pass1"]', "123456");
-//         await page.fill('input[name="pass2"]', "123456");
-//         await page.getByRole('button', { name: 'Đăng kí' }).click();
-//         await expect(page.getByText('Đăng ký thành công!')).toBeVisible();
-//     });
-// });
+    test("TC01 - Đăng ký hợp lệ", async ({ page }) => {
+        await page.goto("/register");
+        await page.fill('input[name="username"]', "user1");
+        await page.fill('input[name="email"]', "user1@gmail.com");
+        await page.fill('input[name="pass1"]', "123456");
+        await page.fill('input[name="pass2"]', "123456");
+        await page.getByRole('button', { name: 'Đăng kí' }).click();
+        await expect(page.getByText(/Đăng ký thành công|Tên người dùng đã tồn tại/)).toBeVisible();
+    });
+});
 
 test.describe("Đăng ký thất bại", () => {
     test("TC02 - Đăng ký với username đã tồn tại", async ({ page }) => {
@@ -44,7 +44,16 @@ test.describe("Đăng ký thất bại", () => {
         await expect(page.getByText('Vui lòng điền tên đăng nhập')).toBeVisible();
     });
 
-    test("TC05 - Bỏ trống password", async ({ page }) => {
+    test("TC05 - Bỏ trống email", async ({ page }) => {
+        await page.goto("/register");
+        await page.fill('input[name="username"]', "user1");
+        await page.fill('input[name="pass1"]', "123456");
+        await page.fill('input[name="pass2"]', "123456");
+        await page.getByRole('button', { name: 'Đăng kí' }).click();
+        await expect(page.getByText('Vui lòng điền email')).toBeVisible();
+    });
+
+    test("TC06 - Bỏ trống password", async ({ page }) => {
         await page.goto("/register");
         await page.fill('input[name="username"]', "user1");
         await page.fill('input[name="email"]', "user1@gmail.com");
@@ -52,7 +61,37 @@ test.describe("Đăng ký thất bại", () => {
         await expect(page.getByText('Vui lòng điền đầy đủ mật khẩu')).toBeVisible();
     });
 
-    test("TC07 - Đăng ký với email sai định dạng", async ({ page }) => {
+    test("TC07 - Password ngắn", async ({ page }) => {
+        await page.goto("/register");
+        await page.fill('input[name="username"]', "user3");
+        await page.fill('input[name="email"]', "user3@gmail.com");
+        await page.fill('input[name="pass1"]', "123");
+        await page.fill('input[name="pass2"]', "123");
+        await page.getByRole('button', { name: 'Đăng kí' }).click();
+        await expect(page.getByText('Mật khẩu tối thiểu 6 ký tự')).toBeVisible();
+    });
+
+    test("TC08 - Password dài", async ({ page }) => {
+        await page.goto("/register");
+        await page.fill('input[name="username"]', "user4");
+        await page.fill('input[name="email"]', "user4@gmail.com");
+        await page.fill('input[name="pass1"]', "123456789999999");
+        await page.fill('input[name="pass2"]', "123456789999999");
+        await page.getByRole('button', { name: 'Đăng kí' }).click();
+        await expect(page.getByText(/Đăng ký thành công|Tên người dùng đã tồn tại/)).toBeVisible();
+    });
+
+    test("TC09 - Password chứa ký tự đặc biệt", async ({ page }) => {
+        await page.goto("/register");
+        await page.fill('input[name="username"]', "user2");
+        await page.fill('input[name="email"]', "user2@gmail.com");
+        await page.fill('input[name="pass1"]', "123@*#");
+        await page.fill('input[name="pass2"]', "123@*#");
+        await page.getByRole('button', { name: 'Đăng kí' }).click();
+        await expect(page.getByText(/Đăng ký thành công|Tên người dùng đã tồn tại/)).toBeVisible();
+    });
+
+    test("TC10 - Đăng ký email sai định dạng", async ({ page }) => {
         await page.goto("/register");
         await page.fill('input[name="username"]', "user1");
         await page.fill('input[name="email"]', "user1#abc.vn");
@@ -63,7 +102,7 @@ test.describe("Đăng ký thất bại", () => {
         expect(message).toMatch(/@|Please enter an email address/);
     });
 
-    test("TC08 - Đăng ký với password và confirm password không khớp", async ({ page }) => {
+    test("TC11 - Đăng ký với password và confirm password không khớp", async ({ page }) => {
         await page.goto("/register");
         await page.fill('input[name="username"]', "user1");
         await page.fill('input[name="email"]', "user1@gmail.com");

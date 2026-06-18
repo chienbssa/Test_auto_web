@@ -7,7 +7,7 @@ test.beforeEach(async ({ page }) => {
     await page.click('text=Thêm vào giỏ hàng');
 });
 
-test("TC42 - Đặt hàng thành công", async ({ page }) => {
+test("TC46 - Đặt hàng thành công", async ({ page }) => {
     await page.goto("/cart");
     await page.fill('input[name="name"]', "Hoàng Chiến");
     await page.fill('input[name="phone"]', "0987654321");
@@ -17,7 +17,7 @@ test("TC42 - Đặt hàng thành công", async ({ page }) => {
     await expect(page.getByText('Đặt hàng thành công!')).toBeVisible();
 });
 
-test("TC43 - Bỏ trống trường họ tên", async ({ page }) => {
+test("TC47 - Bỏ trống trường họ tên", async ({ page }) => {
     await page.goto("/cart");
     await page.fill('input[name="phone"]', "0987654321");
     await page.locator('#district').selectOption('Thành phố Thái Nguyên');
@@ -26,7 +26,7 @@ test("TC43 - Bỏ trống trường họ tên", async ({ page }) => {
     await expect(page.locator('input[name="name"]')).toBeFocused();
 });
 
-test("TC44 - Bỏ trống trường số điện thoại", async ({ page }) => {
+test("TC48 - Bỏ trống trường số điện thoại", async ({ page }) => {
     await page.goto("/cart");
     await page.fill('input[name="name"]', "Hoàng Chiến");
     await page.locator('#district').selectOption('Thành phố Thái Nguyên');
@@ -35,7 +35,7 @@ test("TC44 - Bỏ trống trường số điện thoại", async ({ page }) => {
     await expect(page.locator('input[name="phone"]')).toBeFocused();
 });
 
-test("TC45 - Bỏ trống trường địa chỉ", async ({ page }) => {
+test("TC49 - Bỏ trống trường địa chỉ", async ({ page }) => {
     await page.goto("/cart");
     await page.fill('input[name="name"]', "Hoàng Chiến");
     await page.fill('input[name="phone"]', "0987654321");
@@ -44,7 +44,7 @@ test("TC45 - Bỏ trống trường địa chỉ", async ({ page }) => {
     await expect(page.locator('input[name="address"]')).toBeFocused();
 });
 
-test("TC48 - Đặt hàng khi giỏ trống", async ({ page }) => {
+test("TC52 - Đặt hàng khi giỏ trống", async ({ page }) => {
     await page.goto("/cart");
     await page.locator('.btn.btn-sm.btn-outline-danger').click();
     await page.fill('input[name="name"]', "Hoàng Chiến");
@@ -55,7 +55,7 @@ test("TC48 - Đặt hàng khi giỏ trống", async ({ page }) => {
     await expect(page.getByText('vui lòng thêm sản phẩm trước khi đặt hàng')).toBeVisible();
 });
 
-test("TC49 - Đặt hàng số lượng lớn", async ({ page }) => {
+test("TC53 - Đặt hàng số lượng lớn", async ({ page }) => {
     await page.goto("/cart");
     await page.getByRole('spinbutton').fill('9999');
     await page.reload();
@@ -67,7 +67,7 @@ test("TC49 - Đặt hàng số lượng lớn", async ({ page }) => {
     await expect(page.getByText('Đặt hàng thành công!')).toBeVisible();
 });
 
-test("TC51 - SQL Injection checkout", async ({ page }) => {
+test("TC55 - SQL Injection checkout", async ({ page }) => {
     await page.goto("/cart");
     await page.fill('input[name="name"]', "' OR 1=1 --");
     await page.fill('input[name="phone"]', "0987654321");
